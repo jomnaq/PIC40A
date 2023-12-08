@@ -1,0 +1,78 @@
+window.onload = function () {
+  const submit = document.getElementById("submitButton");
+  submit.addEventListener("click", readInformation);
+  document.addEventListener("keyup", function (e) {
+    if (e.key === "Enter") {
+      readInformation();
+    }
+  });
+};
+
+function readInformation() {
+  const usernameInput = document.getElementById("usernameBoxID");
+  validate_username(usernameInput.value);
+}
+
+function validate_username(username) {
+  let error = false;
+  let errormsg = "";
+  // check that it's in the correct form for first 7 bullet points
+  if (username.length < 5) {
+    errormsg += "Username must be 5 characters or longer.\n";
+    error = true;
+  }
+  if (username.length > 40) {
+    errormsg += "Username cannot be more than 40 characters.\n";
+    error = true;
+  }
+  if (username.indexOf(" ") !== -1) {
+    errormsg += "Username cannot contain spaces.\n";
+    error = true;
+  }
+  if (username.indexOf(",") !== -1) {
+    errormsg += "Username cannot contain commas.\n";
+    error = true;
+  }
+  if (username.indexOf(";") !== -1) {
+    errormsg += "Username cannot contain ;\n";
+    error = true;
+  }
+  if (username.indexOf("=") !== -1) {
+    errormsg += "Username cannot contain =\n";
+    error = true;
+  }
+  if (username.indexOf("&") !== -1) {
+    errormsg += "Username cannot contain &\n";
+    error = true;
+  }
+  if (error) {
+    alert(errormsg);
+    return;
+  }
+
+  // last bullet point
+  if (error === false) {
+    const allowedChar = new Set(); // use set to store allowed characters
+    let allowedString =
+      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^*()-_+[]{}:'|`~<.>/?";
+    for (let char of allowedString) {
+      allowedChar.add(char);
+    }
+    // checking if each character is in the set of allowed characters
+    for (let userChar of username) {
+      if (allowedChar.has(userChar) === false) {
+        alert(
+          "Username can only use characters from the following string:\nabcdefghijklmnopqrstuvwxyz\nABCDEFGHIJKLMNOPQRSTUVWXYZ\n0123456789\n!@#$%^*()-_+[]{}:'|`~<.>/?"
+        );
+        return;
+      }
+    }
+  }
+
+  // username is fine
+  if (error === false) {
+    // if username is fine, redirect to index.html
+    window.location.href = "https://www.pic.ucla.edu/~jjliu7/HW3/index.html";
+    return;
+  }
+}

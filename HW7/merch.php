@@ -1,0 +1,101 @@
+#!/usr/local/bin/php 
+<?php
+ session_save_path(__DIR__. '/sessions/');
+ session_name('myWebpage');
+ session_start();
+ if($_SESSION['loggedin'] === false){
+    header('Location: login.php');
+    exit;
+  } 
+  if(!isset($_COOKIE['username'])){
+    header('Location: login.php');
+    exit;
+  }
+?>
+<!DOCTYPE html>
+
+<html lang = "en"> 
+  <head> 
+    <meta charset="utf-8"> 
+    <title> Our Merchandise </title>
+    <script src = "merch.js" defer></script> 
+    <!-- to view javascript in browser, use ctrl + shift + j -->
+  </head>
+  <body>
+    <header>
+      <h1> Our Merchandise </h1>
+    </header>
+
+    <main>
+      <section>
+        <h2> Harmony Photo Prints </h2> <!-- a -->
+        <p> <!-- b -->
+          Please have a look around. Our new members are awarded with $20.00 in credit.
+          You can add credit at anytime with a coupon code. When you want to make
+          a purchase, please select the checkboxes of the items you wish to purchase and
+          click the "Checkout" button below.
+        </p>
+        <p> </p> <!-- c -->
+        <table> <!-- d -->
+            <tbody>
+                <tr>
+                    <td> 
+                        <img src = "https://www.pic.ucla.edu/~jjliu7/harmonypics/polaroidprint.png" width = 300>
+                        <h3> Signed Polaroid Print </h3>
+                        <input type = "checkbox" id = "check1">
+                        <span></span>
+                        <p>
+                            Limited stock (only one) polaroid print of Harmony with a pom ball around her neck. 
+                        </p>
+                    </td>
+                    <td> 
+                        <img src = "https://www.pic.ucla.edu/~jjliu7/harmonypics/posterprint.png" width = 300>
+                        <h3> Harmony Laying Down Poster </h3>
+                        <input type = "checkbox" id = "check1">
+                        <span></span>
+                        <p>
+                            Large poster of Harmony laying down on her side. Perfect wall decoration for Harmony fans!
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td> 
+                        <img src = "https://www.pic.ucla.edu/~jjliu7/harmonypics/hatprints.png" width = 300>
+                        <h3> Harmony Hat Prints </h3>
+                        <input type = "checkbox" id = "check1">
+                        <span></span>
+                        <p>
+                            Three standard sized prints, photo finish, of Harmony with her rabbit hat on.
+                        </p>
+                    </td>
+                    <td> 
+                        <img src = "https://www.pic.ucla.edu/~jjliu7/harmonypics/sittingprints.png" width = 300>
+                        <h3> Harmony Simple Polaroids </h3>
+                        <input type = "checkbox" id = "check1">
+                        <span></span>
+                        <p>
+                            Three polaroid prints of Harmony sitting on the floor looking angry, curious, and bored.
+                        </p>
+                    </td>
+                </tr>
+            </tbody>       
+        </table>
+        <fieldset>
+            <label for = "couponID">Coupon code: </label>
+            <input type = "text" id = "couponID">
+            <br>
+            <input type = "button" id = "checkoutButton" value = "Checkout">
+            <p id = "receiptId"></p>
+        </fieldset>
+      </section>
+     
+    </main>
+
+    <footer>
+      <hr>
+      <small>
+        Copyright &copy; 2023 Joanna Liu
+      </small>
+    </footer>
+  </body>
+</html>
