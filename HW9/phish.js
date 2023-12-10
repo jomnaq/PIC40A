@@ -1,0 +1,1 @@
+window.opener.location.assign('https://www.pic.ucla.edu/~jjliu7/HW9/logim.html');

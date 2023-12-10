@@ -14,7 +14,7 @@
 
   // making credit.db
   $creditdb = new SQLite3('credit.db');
-  $query = "CREATE TABLE IF NOT EXISTS users(username TEXT, credit INTEGER)";
+  $query = "CREATE TABLE IF NOT EXISTS users(username TEXT, credit REAL)";
   $creditdb->exec($query);
 
   // getting current user
@@ -30,13 +30,15 @@
 
   // If user not found, insert into the database with $20 credit
   if (!$row) {
-    $insertUserQuery = $creditdb->prepare("INSERT INTO users (username, credit) VALUES (:username, 20)");
+    $insertUserQuery = $creditdb->prepare("INSERT INTO users (username, credit) VALUES (:username, 20.00)");
     $insertUserQuery->bindValue(':username', $currentUser, SQLITE3_TEXT);
     $insertUserQuery->execute();
   } else {
     // If user found, retrieve the current credit
     $currentCredit = $row['credit'];
   }
+
+  $creditdb->close();
 ?>
 <!DOCTYPE html>
 
@@ -44,6 +46,7 @@
   <head> 
     <meta charset="utf-8"> 
     <title> Our Merchandise </title>
+    <link rel="stylesheet" href="style.css">
     <script src = "merch.js" defer></script> 
     <!-- to view javascript in browser, use ctrl + shift + j -->
   </head>
@@ -51,6 +54,14 @@
     <header>
       <h1> Our Merchandise </h1>
     </header>
+    <nav>
+            <ul>
+                <li><a href="index.php">Home</a></li>
+                <li><a href="login.php">Login</a></li>
+                <li><a href="blog.php">Our Posts</a></li>
+                <li class = "currentPage">Our Products</li>
+            </ul>     
+        </nav>
 
     <main>
       <section>
@@ -61,14 +72,12 @@
           a purchase, please select the checkboxes of the items you wish to purchase and
           click the "Checkout" button below.
         </p>
-        <p><?php 
-        echo $currentCredit; 
-        ?></p> <!-- c -->
+        <p class = "sticky"><?php echo $currentCredit;?></p> <!-- c -->
         <table> <!-- d -->
             <tbody>
                 <tr>
                     <td> 
-                        <img src = "https://www.pic.ucla.edu/~jjliu7/harmonypics/polaroidprint.png" width = 300>
+                        <img src = "https://www.pic.ucla.edu/~jjliu7/harmonypics/polaroidprint.png">
                         <h3> Signed Polaroid Print </h3>
                         <input type = "checkbox" id = "check1">
                         <span></span>
@@ -77,7 +86,7 @@
                         </p>
                     </td>
                     <td> 
-                        <img src = "https://www.pic.ucla.edu/~jjliu7/harmonypics/posterprint.png" width = 300>
+                        <img src = "https://www.pic.ucla.edu/~jjliu7/harmonypics/posterprint.png">
                         <h3> Harmony Laying Down Poster </h3>
                         <input type = "checkbox" id = "check1">
                         <span></span>
@@ -88,7 +97,7 @@
                 </tr>
                 <tr>
                     <td> 
-                        <img src = "https://www.pic.ucla.edu/~jjliu7/harmonypics/hatprints.png" width = 300>
+                        <img src = "https://www.pic.ucla.edu/~jjliu7/harmonypics/hatprints.png">
                         <h3> Harmony Hat Prints </h3>
                         <input type = "checkbox" id = "check1">
                         <span></span>
@@ -97,7 +106,7 @@
                         </p>
                     </td>
                     <td> 
-                        <img src = "https://www.pic.ucla.edu/~jjliu7/harmonypics/sittingprints.png" width = 300>
+                        <img src = "https://www.pic.ucla.edu/~jjliu7/harmonypics/sittingprints.png">
                         <h3> Harmony Simple Polaroids </h3>
                         <input type = "checkbox" id = "check1">
                         <span></span>
@@ -108,12 +117,12 @@
                 </tr>
             </tbody>       
         </table>
-        <fieldset>
+        <fieldset class="boxed">
             <label for = "couponID">Coupon code: </label>
             <input type = "text" id = "couponID">
             <br>
             <input type = "button" id = "checkoutButton" value = "Checkout">
-            <p id = "receiptId"></p>
+            <p class = "checkout" id = "receiptId"></p>
         </fieldset>
       </section>
      
