@@ -117,7 +117,7 @@
                 </tr>
             </tbody>       
         </table>
-        <fieldset class="boxed">
+        <fieldset class = "couponspacing">
             <label for = "couponID">Coupon code: </label>
             <input type = "text" id = "couponID">
             <br>

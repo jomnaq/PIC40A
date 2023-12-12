@@ -11,7 +11,7 @@ if (isset($_POST['username']) && isset($_POST['credit'])) {
     $statement->execute();
 
     $creditdb->close();
-    echo $credit;
+    echo (float)$credit;
 } else {
     echo "Either the user or the credit was not posted.";
 }

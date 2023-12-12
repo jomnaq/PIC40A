@@ -46,7 +46,7 @@ function imageListeners() {
 checkout_btn.addEventListener("click", function () {
   validate_coupon_code(coupon_box.value);
   sales_total();
-  setTimeout(update_credit(), 1000);
+  update_credit();
 });
 
 // Event Listener for pressing enter
@@ -54,7 +54,7 @@ document.addEventListener("keyup", function (e) {
   if (e.key === "Enter") {
     validate_coupon_code(coupon_box.value);
     sales_total();
-    setTimeout(update_credit(), 1000);
+    update_credit();
   }
 });
 
@@ -62,23 +62,27 @@ document.addEventListener("keyup", function (e) {
 // updates on screen credit
 function update_credit() {
   const request = new XMLHttpRequest();
-  request.onload = function(){
+  request.addEventListener("load", function(){
     if(this.status === 200){
       // ajax request finishes, 
       const updatedCredit = Number.parseFloat(this.responseText).toFixed(2);
       credit_para.textContent = `Your credit: \$${updatedCredit}`;
-      credit = Number.parseFloat(updatedCredit); // Update the credit variable as a float
-      console.log(this.responseText);
+      console.log(updatedCredit);
+    } else {
+      console.log("something is wrong!");
     }
-  }
+  });
+  
   request.open('POST', 'money.php');
   request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  // getting parameters
   let username = document.cookie.split('=')[1];
   username = username.split(';')[0];
   console.log(username);
   console.log(credit);
+  // send data
   const data = `username=${username}&credit=${Number.parseFloat(credit).toFixed(2)}`;
-  request.send(data);
+  request.send(data.toString());
 }
 
 // checks if coupon is valid + adds to credit + resets box/receipt
@@ -92,7 +96,6 @@ function validate_coupon_code(code) {
   }
   receipt.textContent = "";
   coupon_box.value = "";
-  update_credit();
 }
 
 let checkouts_complete = 0;
